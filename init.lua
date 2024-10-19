@@ -3,7 +3,7 @@ require("config.lazy")
 -- keymap
 
 -- Use <S-f> to toggle nvim-tree
-vim.api.nvim_set_keymap('n', '<S-f>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-t>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 
 -- Use <esc> to exit terminal mode
 vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])

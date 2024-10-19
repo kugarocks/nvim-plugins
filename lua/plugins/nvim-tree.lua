@@ -7,6 +7,11 @@ return {
   -- Otherwise, the icons color may be wrong
   event = "User MonokaiLoaded",
   config = function()
+    local api = require('nvim-tree.api')
+
+    -- Use <S-f> to focus nvim-tree
+    vim.keymap.set('n', '<S-f>', api.tree.focus, { desc = 'Focus nvim-tree', noremap = true, silent = true })
+
     require("nvim-tree").setup {
       renderer = {
         icons = {
@@ -21,8 +26,6 @@ return {
         dotfiles = true, -- show hidden files if false, hide if true
       },
       on_attach = function(bufnr)
-        local api = require('nvim-tree.api')
-
         -- define opts
         local function opts(desc)
           return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
@@ -31,8 +34,8 @@ return {
         -- default mappings
         api.config.mappings.default_on_attach(bufnr)
 
-        -- Use <S-f> to toggle nvim-tree
-        vim.keymap.set('n', '<S-f>', api.tree.toggle, opts('toggle'))
+        -- Use <S-t> to toggle nvim-tree
+        vim.keymap.set('n', '<S-t>', api.tree.toggle, opts('toggle'))
 
         -- :help api.tree
         -- Use <S-e> to change root to node
