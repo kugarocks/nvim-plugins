@@ -26,6 +26,18 @@ return {
         { name = "buffer" },
         { name = "path" },
       },
+
+      -- select first prompt
+      -- completion = {
+      --   completeopt = 'menu,menuone,noinsert',
+      -- },
+      -- preselect = cmp.PreselectMode.Item,
+
+      -- no select
+      completion = {
+        completeopt = 'menu,menuone,noselect',
+      },
+      preselect = cmp.PreselectMode.None,
     })
   end,
 }

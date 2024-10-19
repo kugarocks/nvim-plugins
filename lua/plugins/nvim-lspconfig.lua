@@ -35,14 +35,35 @@ return {
     }
 
     -- php
-    lspconfig.intelephense.setup{
+    lspconfig.intelephense.setup {
+      root_dir = lspconfig.util.root_pattern("composer.json", ".git", "."),
       settings = {
         intelephense = {
+          completion = {
+            enable = true,
+            triggerParameterHints = true,
+            insertUseDeclaration = true,
+            fullyQualifyGlobalConstantsAndFunctions = true,
+          },
           format = {
-            enable = true,  -- enable format
+            enable = true
+          },
+          phpdoc = {
+            useFullyQualifiedNames = true,
+            returnVoid = false,
+          },
+          telemetry = {
+            enable = false
           },
           diagnostics = {
-            enable = true,  -- enable diagnostics
+            enable = true,
+            -- undefinedSymbols = true,
+            -- undefinedTypes = true,
+            -- undefinedFunctions = true,
+            -- undefinedConstants = true,
+            -- undefinedMethods = true,
+            -- undefinedProperties = true,
+            -- undefinedVariables = true,
           },
         },
       },
