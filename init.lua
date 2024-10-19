@@ -1,7 +1,11 @@
 require("config.lazy")
 
 -- keymap
-vim.api.nvim_set_keymap('n', '<C-d>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+
+-- Use <S-f> to toggle nvim-tree
+vim.api.nvim_set_keymap('n', '<S-f>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+
+-- Use <esc> to exit terminal mode
 vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 
 -- Enable line numbers
