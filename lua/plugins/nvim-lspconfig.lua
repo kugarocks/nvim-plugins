@@ -50,6 +50,7 @@ return {
 
     -- ruby
     lspconfig.solargraph.setup {
+      root_dir = lspconfig.util.root_pattern("Gemfile", ".git", "."),
       settings = {
         solargraph = {
           diagnostics = true,
