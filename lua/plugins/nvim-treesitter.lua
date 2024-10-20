@@ -5,7 +5,10 @@ return {
     require("nvim-treesitter.configs").setup {
       -- ensure_installed = "all", -- Install all parsers or specify a list
       highlight = {
-        enable = true, -- Enable highlighting
+        enable = true,
+      },
+      indent = {
+        enable = true,
       },
     }
   end,

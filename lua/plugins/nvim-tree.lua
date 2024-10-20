@@ -23,7 +23,7 @@ return {
         },
       },
       filters = {
-        dotfiles = true, -- show hidden files if false, hide if true
+        dotfiles = false, -- show hidden files if false, hide if true
       },
       on_attach = function(bufnr)
         -- define opts

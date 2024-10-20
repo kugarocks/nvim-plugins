@@ -22,6 +22,25 @@ return {
       },
     }
 
+    -- go tab
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "go",
+      callback = function()
+        vim.bo.expandtab = false
+        vim.bo.tabstop = 4
+        vim.bo.shiftwidth = 4
+        vim.bo.softtabstop = 4
+      end
+    })
+
+    -- go pre-write
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*.go",
+      callback = function()
+        vim.lsp.buf.format()
+      end,
+    })
+
     -- python
     lspconfig.pyright.setup{
       settings = {
@@ -34,57 +53,87 @@ return {
       },
     }
 
+    -- python format
+    local function format_python()
+      local bufnr = vim.api.nvim_get_current_buf()
+      local filename = vim.api.nvim_buf_get_name(bufnr)
+      local cmd = string.format("black %s", vim.fn.shellescape(filename))
+      local output = vim.fn.system(cmd)
+      
+      if vim.v.shell_error == 0 then
+        -- reload file
+        local lines = vim.fn.readfile(filename)
+        vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+        -- set buffer unmodified
+        vim.api.nvim_buf_set_option(bufnr, 'modified', false)
+        -- update file time
+        vim.cmd('checktime')
+      else
+        vim.notify("Black format failed: " .. output, vim.log.levels.ERROR)
+      end
+    end
+
+    -- python pre-write
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*.py",
+      callback = function()
+        format_python()
+      end,
+    })
+
     -- php
     lspconfig.intelephense.setup {
       root_dir = lspconfig.util.root_pattern("composer.json", ".git", "."),
       settings = {
         intelephense = {
-          completion = {
-            enable = true,
-            triggerParameterHints = true,
-            insertUseDeclaration = true,
-            fullyQualifyGlobalConstantsAndFunctions = true,
-          },
           format = {
-            enable = true
-          },
-          phpdoc = {
-            useFullyQualifiedNames = true,
-            returnVoid = false,
-          },
-          telemetry = {
-            enable = false
-          },
-          diagnostics = {
-            enable = true,
-            -- undefinedSymbols = true,
-            -- undefinedTypes = true,
-            -- undefinedFunctions = true,
-            -- undefinedConstants = true,
-            -- undefinedMethods = true,
-            -- undefinedProperties = true,
-            -- undefinedVariables = true,
+            braces = "k&r",
+            insertSpaces = true,
+            tabSize = 4,
+            indentSize = 4,
           },
         },
       },
     }
 
+    -- php pre-write
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*.php",
+      callback = function()
+        vim.lsp.buf.format()
+      end,
+    })
+
     -- ruby
     lspconfig.solargraph.setup {
-      root_dir = lspconfig.util.root_pattern("Gemfile", ".git", "."),
+      root_dir = lspconfig.util.root_pattern("Gemfile", ".git", ".solargraph.yml", "."),
       settings = {
         solargraph = {
-          diagnostics = true,
-          completion = true,
-          hover = true,
-          formatting = true,
-          symbols = true,
-          definitions = true,
-          rename = true,
-          references = true,
-          folding = true,
         },
       },
     }
+
+    -- ruby frozen_string_literal
+    local function add_frozen_string_literal()
+      local bufnr = vim.api.nvim_get_current_buf()
+      local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+      
+      if #lines == 0 or not lines[1]:match("^# frozen_string_literal: true") then
+        vim.api.nvim_buf_set_lines(bufnr, 0, 0, false, {"# frozen_string_literal: true", ""})
+      end
+    end
+
+    -- ruby pre-write
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*.rb",
+      callback = function()
+        add_frozen_string_literal()
+        vim.lsp.buf.format()
+      end,
+    })
+
+    -- ruby add frozen_string_literal
+    vim.api.nvim_create_user_command("Addfsl", add_frozen_string_literal, {})
+
   end,
 }
