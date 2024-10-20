@@ -73,14 +73,6 @@ return {
       end
     end
 
-    -- python pre-write
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*.py",
-      callback = function()
-        format_python()
-      end,
-    })
-
     -- php
     lspconfig.intelephense.setup {
       root_dir = lspconfig.util.root_pattern("composer.json", ".git", "."),
@@ -95,14 +87,6 @@ return {
         },
       },
     }
-
-    -- php pre-write
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*.php",
-      callback = function()
-        vim.lsp.buf.format()
-      end,
-    })
 
     -- ruby
     lspconfig.solargraph.setup {
@@ -123,14 +107,18 @@ return {
       end
     end
 
-    -- ruby pre-write
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*.rb",
-      callback = function()
-        add_frozen_string_literal()
+    -- format entry
+    local function format_buffer()
+      local filetype = vim.bo.filetype
+      if filetype == "python" then
+        format_python()
+      else
         vim.lsp.buf.format()
-      end,
-    })
+      end
+    end
+
+    -- format shortcut
+    vim.keymap.set('n', '<S-m>', format_buffer, { noremap = true, silent = true })
 
     -- ruby add frozen_string_literal
     vim.api.nvim_create_user_command("Addfsl", add_frozen_string_literal, {})
