@@ -25,6 +25,11 @@ return {
       filters = {
         dotfiles = false, -- show hidden files if false, hide if true
       },
+      view = {
+        width = 40, -- set tree window width to 30 columns
+        side = "left", -- tree window on left side
+        adaptive_size = false, -- disable adaptive size
+      },
       on_attach = function(bufnr)
         -- define opts
         local function opts(desc)
@@ -52,5 +57,21 @@ return {
         vim.keymap.set('n', '<S-w>', '<C-w>', opts('move window'))
       end,
     }
+
+    -- Change the width of the nvim-tree window
+    local function change_nvim_tree_width(new_width)
+      require("nvim-tree.view").View.width = new_width
+      require("nvim-tree.view").resize()
+    end
+
+    -- Use :TR <width> to change the width of the nvim-tree window
+    vim.api.nvim_create_user_command("TR", function(opts)
+      local new_width = tonumber(opts.args)
+      if new_width then
+        change_nvim_tree_width(new_width)
+      else
+        print("Please provide a number for the new width")
+      end
+    end, { nargs = 1 })
   end
 }

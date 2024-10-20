@@ -9,8 +9,12 @@ return {
       },
       indent = {
         enable = true,
+
+        -- use vim-ruby instead
         -- When input `if foo.bar`, the indent will be wrong
-        disable = { "ruby" },
+        -- use vim-go instead
+        -- When input var foo int, the indent will be wrong
+        disable = { "ruby", "go" },
       },
     }
   end,
