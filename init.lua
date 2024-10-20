@@ -5,6 +5,12 @@ require("config.lazy")
 -- Use <S-f> to toggle nvim-tree
 vim.api.nvim_set_keymap('n', '<S-t>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 
+-- Use <S-w> to move to another window
+vim.api.nvim_set_keymap('n', '<S-w>i', '<C-w>k', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-w>k', '<C-w>j', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-w>j', '<C-w>h', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-w>l', '<C-w>l', { noremap = true, silent = true })
+
 -- Use <esc> to exit terminal mode
 vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 

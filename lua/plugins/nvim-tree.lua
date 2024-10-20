@@ -43,6 +43,13 @@ return {
 
         -- Use <S-r> to change root to parent
         vim.keymap.set('n', '<S-r>', api.tree.change_root_to_parent, opts('change root to node'))
+
+        -- Use <S-c> to collapse all nodes
+        -- original is toggle_git_clean_filter
+        vim.keymap.set('n', '<S-c>', api.tree.collapse_all, opts('collapse all nodes'))
+
+        -- Use <S-w> to move to another window
+        vim.keymap.set('n', '<S-w>', '<C-w>', opts('move window'))
       end,
     }
   end
