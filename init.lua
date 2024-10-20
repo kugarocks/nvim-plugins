@@ -22,3 +22,10 @@ vim.wo.numberwidth = 4
 vim.o.expandtab = true      -- Use spaces instead of tabs
 vim.o.shiftwidth = 4         -- Number of spaces for (auto)indent
 vim.o.tabstop = 4            -- Number of spaces that a <Tab> counts for
+
+-- Open nvim-tree when vim is opened
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    require("nvim-tree.api").tree.open()
+  end
+})

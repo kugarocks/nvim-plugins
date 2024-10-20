@@ -9,6 +9,8 @@ return {
       },
       indent = {
         enable = true,
+        -- When input `if foo.bar`, the indent will be wrong
+        disable = { "ruby" },
       },
     }
   end,
