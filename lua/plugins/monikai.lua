@@ -5,7 +5,11 @@ return {
     local palette = monokai.classic
     monokai.setup {
       palette = {
-        base2 = "#000000",
+        -- base2 = "#000000", -- black
+        base2 = "#17181c", -- kugarocks background
+        -- base2 = "#14191e", -- item2 smooth
+        -- base2 = "#2d2a2e", -- cursor monokai pro
+        -- base2 = "#2c2a2e", -- jetbrains monokai pro
       },
       custom_hlgroups = {
         LineNr = {
